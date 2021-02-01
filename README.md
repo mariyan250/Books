@@ -8,9 +8,9 @@
 
 # Routes
 | Route | Functionality |
-| --- | ---- |
-| /books/ (GET) | Get all books. |
-| /books/ (POST) | Create and post a book. |
-| /books/:id (GET) | Get book by id. |
-| /books/:id (PUT) | Update book by id. |
-| /books/:id (DELETE) | Delete book by id. |
+| --- | ----- |
+| /books (get) | Get all books. |
+| /books (post) | Create and post a book. |
+| /books/:id (get) | Get book by id. |
+| /books/:id (put) | Update book by id. |
+| /books/:id (delete) | Delete book by id. |
