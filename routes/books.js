@@ -14,7 +14,7 @@ router.get('/:id', (req, res) => {
   const book = books.find((book) => book.id === id);
 
   if (!book) {
-    res.status(404).send('Book not found!');
+    res.status(404).json({ error: 'Book not found!' });
     return;
   }
 
@@ -29,18 +29,49 @@ router.post('/', (req, res) => {
   const exists = books.find((book) => book.id == id);
 
   if (!id && !name && !author && !price) {
-    res.status(404).send('Please enter all required data to publish book!');
-    return;
-  } else if (exists) {
     res
-      .status(405)
-      .send(
-        'There is already book with that id! Please enter other id for the new book!'
-      );
+      .status(404)
+      .json({ error: 'Please enter all required data to publish book!' });
+    return;
+  }
+
+  if (exists) {
+    res.status(405).json({ error: 'There is already book with that id!' });
     return;
   }
 
   books.push(book);
+});
+
+// Update a book
+router.put('/:id', (req, res) => {
+  const { name, price, author } = req.body;
+  const book = books.find((book) => book.id === req.params.id);
+
+  if (book) {
+    book.name = name || book.name;
+    book.price = price || book.price;
+    book.author = author || book.author;
+
+    res.json(book);
+    return;
+  }
+
+  res.status(404).json({ error: 'There is not a book with that id!' });
+});
+
+// Delete a book
+router.delete('/:id', (req, res) => {
+  const book = books.find((book) => book.id === req.params.id);
+  const index = books.findIndex((book) => book.id === req.params.id);
+
+  if (book) {
+    books.splice(index, 1);
+    res.status(200).json({ success: 'Sucessfully deleted book!' });
+    return;
+  }
+
+  res.status(404).json({ error: 'There is not a book with that id!' });
 });
 
 export default router;
